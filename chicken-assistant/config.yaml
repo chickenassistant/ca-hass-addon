@@ -1,0 +1,65 @@
+name: Chicken Assistant
+version: "0.1.0"
+slug: chicken_assistant
+description: Local-first chicken coop monitoring and automation
+url: https://github.com/chickenassistant/core
+arch:
+  - amd64
+startup: application
+boot: auto
+init: false
+
+# Web UI. Leave both entries so the addon can be accessed directly or via HA.
+ports:
+  "8080/tcp": 8080
+ports_description:
+  "8080/tcp": Web UI
+
+panel_icon: mdi:egg
+panel_title: Chickens
+
+# Persist state under /data (survives addon upgrades).
+map:
+  - share:rw
+
+# Require an MQTT broker. When HA's Mosquitto add-on is installed, host and
+# credentials are auto-discovered via Supervisor (see run.sh); the mqtt_*
+# options below are only needed to override that discovery.
+services:
+  - mqtt:need
+
+# Grants read access to HA state (for future Zigbee/ZHA integration).
+homeassistant_api: true
+
+# User-facing options. SESSION_SECRET is auto-generated on first run when
+# blank. Leave mqtt_* blank (host) / 0 (port) to use Supervisor discovery.
+options:
+  session_secret: ""
+  admin_username: admin
+  admin_password: ""
+  mqtt_host: ""
+  mqtt_port: 0
+  mqtt_username: ""
+  mqtt_password: ""
+  # Home Assistant native ingestion (ZHA, etc.). Leave empty to skip.
+  # Each entry maps an HA entity to a Chicken Assistant sensor reading.
+  ha_poll_interval: 30
+  ha_entities: []
+
+schema:
+  session_secret: str
+  admin_username: str
+  admin_password: password
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_username: str
+  mqtt_password: password
+  ha_poll_interval: int(5,3600)
+  ha_entities:
+    - entity_id: str
+      device_id: str
+      sensor_type: str
+      unit: str?
+
+# Pre-built image published by the build script / CI.
+image: ghcr.io/chickenassistant/chicken-assistant-addon-{arch}
