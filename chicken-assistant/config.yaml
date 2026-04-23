@@ -16,14 +16,19 @@ ports:
 ports_description:
   "8080/tcp": Web UI
 
+ingress: true
+ingress_port: 8080
+
 panel_icon: mdi:egg
 panel_title: Chickens
 
+# Soft-require MQTT: install works without a broker (ZHA-only users). Z2M
+# device discovery is disabled when no broker is available.
 # Require an MQTT broker. When HA's Mosquitto add-on is installed, host and
 # credentials are auto-discovered via Supervisor (see run.sh); the mqtt_*
 # options below are only needed to override that discovery.
 services:
-  - mqtt:need
+  - mqtt:want
 
 # Grants read access to HA state (for future Zigbee/ZHA integration).
 homeassistant_api: true

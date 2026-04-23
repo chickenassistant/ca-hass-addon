@@ -65,8 +65,7 @@ override_pass="$(opt mqtt_password '""')"
 [ -n "$override_pass" ]     && MQTT_PASSWORD="$override_pass"
 
 if [ -z "$MQTT_HOST" ]; then
-  echo "addon: no MQTT broker available. Install the Mosquitto add-on or set mqtt_host in the add-on options." >&2
-  exit 1
+  echo "addon: no MQTT broker found — Z2M device discovery disabled. Install Mosquitto or set mqtt_host to enable." >&2
 fi
 : "${MQTT_PORT:=1883}"
 
