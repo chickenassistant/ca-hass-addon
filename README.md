@@ -11,6 +11,11 @@ chicken coop monitoring and automation platform.
 3. Add this URL: `https://github.com/chickenassistant/ca-hass-addon`
 4. Install **Chicken Assistant** from the add-on store that appears.
 
+For staging/test Home Assistant instances, add this URL instead:
+`https://github.com/chickenassistant/ca-hass-addon-staging`. The staging
+channel installs as **Chicken Assistant (Staging)** and follows the
+`ghcr.io/chickenassistant/chicken-assistant-addon-{arch}:staging` image tag.
+
 ## Add-ons
 
 | Add-on              | Description                                                      |
