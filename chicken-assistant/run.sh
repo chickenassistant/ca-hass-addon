@@ -21,6 +21,11 @@ export ADMIN_PASSWORD="$(opt admin_password '""')"
 export DATA_DIR=/data
 export DATABASE_PATH=/data/chickenassistant.db
 
+if [ ! -s "$DATABASE_PATH" ] && [ -z "$ADMIN_PASSWORD" ]; then
+  echo "addon: admin_password must be set on first boot so the initial admin account can be created." >&2
+  exit 1
+fi
+
 # ── SESSION_SECRET ───────────────────────────────────────────────────────
 # User-supplied (≥32 chars) wins; otherwise reuse or generate+persist one.
 SESSION_SECRET_IN="$(opt session_secret '""')"
