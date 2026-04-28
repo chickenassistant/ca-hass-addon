@@ -22,8 +22,7 @@ export DATA_DIR=/data
 export DATABASE_PATH=/data/chickenassistant.db
 
 if [ ! -s "$DATABASE_PATH" ] && [ -z "$ADMIN_PASSWORD" ]; then
-  echo "addon: admin_password must be set on first boot so the initial admin account can be created." >&2
-  exit 1
+  echo "addon: no admin_password set; first-run setup will create the initial admin account in the web UI." >&2
 fi
 
 # ── SESSION_SECRET ───────────────────────────────────────────────────────
@@ -83,6 +82,9 @@ export HA_URL="http://supervisor/core/api"
 export HA_TOKEN="${SUPERVISOR_TOKEN:-}"
 export HA_POLL_INTERVAL="$(opt ha_poll_interval '30')"
 export HA_ENTITIES="$(jq -c '.ha_entities // []' "$OPT")"
+if [ "$HA_ENTITIES" != "[]" ]; then
+  echo "addon: Home Assistant entity polling enabled (${HA_POLL_INTERVAL}s interval)"
+fi
 
 cd /app
 exec ./server

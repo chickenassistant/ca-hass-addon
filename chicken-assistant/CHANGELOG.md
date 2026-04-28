@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1
+
+- Adds support for the in-app first-run setup flow when `admin_password` is
+  left blank.
+- Treats MQTT as recommended rather than mandatory so ZHA-only Home Assistant
+  setups can start without a broker.
+- Improves startup logs for admin bootstrap, MQTT discovery, and HA entity
+  polling.
+
 ## 0.1.0
 
 - Initial release as a Home Assistant add-on.

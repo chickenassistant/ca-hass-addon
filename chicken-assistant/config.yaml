@@ -34,7 +34,8 @@ services:
 homeassistant_api: true
 
 # User-facing options. SESSION_SECRET is auto-generated on first run when
-# blank. Leave mqtt_* blank (host) / 0 (port) to use Supervisor discovery.
+# blank. Leave admin_password blank to use the web UI first-run setup flow.
+# Leave mqtt_* blank (host) / 0 (port) to use Supervisor discovery.
 options:
   session_secret: ""
   admin_username: admin

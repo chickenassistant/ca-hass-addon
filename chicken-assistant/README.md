@@ -8,10 +8,10 @@ deployment — only the entrypoint differs.
 
 This add-on assumes your HA install already has the infrastructure:
 
-- **MQTT broker** — required. The easiest path is the official
+- **MQTT broker** — recommended for Zigbee2MQTT and Frigate ingestion. The easiest path is the official
   **Mosquitto broker** add-on; this add-on will auto-discover its host and
   credentials via Supervisor. Any external broker also works (configure
-  manually via the options below).
+  manually via the options below). ZHA-only setups can run without MQTT.
 - **Zigbee** — optional, via either path:
   - **Zigbee2MQTT** — publishes to MQTT; picked up automatically.
   - **ZHA** (Home Assistant native) — no MQTT layer. List the relevant
@@ -27,14 +27,14 @@ Assistant.
 
 ## Configuration
 
-Most users only need to set the admin credentials; MQTT is auto-discovered
-when the Mosquitto add-on is running.
+Most users can leave admin credentials blank and create the first admin in
+the Web UI. MQTT is auto-discovered when the Mosquitto add-on is running.
 
 | Option            | Default        | Notes                                                 |
 | ----------------- | -------------- | ----------------------------------------------------- |
 | `session_secret`  | auto-generated | Leave blank to auto-generate a persistent secret.     |
 | `admin_username`  | `admin`        | First-run admin account only.                         |
-| `admin_password`  | _(empty)_      | Set on first boot; change via the UI afterwards.      |
+| `admin_password`  | _(empty)_      | Optional bootstrap password. Blank = create the first admin in the Web UI. |
 | `mqtt_host`       | _(empty)_      | Blank = use Supervisor discovery (Mosquitto add-on).  |
 | `mqtt_port`       | `0`            | `0` = use discovered port.                            |
 | `mqtt_username`   | _(empty)_      |                                                       |
@@ -42,7 +42,8 @@ when the Mosquitto add-on is running.
 
 Any non-empty MQTT option overrides Supervisor discovery, so you can point
 the add-on at an external broker by filling in `mqtt_host` (and credentials
-if needed).
+if needed). If no MQTT broker is found, the add-on still starts; MQTT-backed
+device discovery remains disabled until a broker is configured.
 
 ## ZHA / native HA sensors
 
